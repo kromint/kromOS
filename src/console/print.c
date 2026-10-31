@@ -41,7 +41,7 @@ void draw_char(char chr,unsigned int color) {
 	return;
 }
 
-void printk(char* str,unsigned int color) {
+void printk(const char* str,unsigned int color) {
 	for(int i = 0;str[i] != '\0';i++) {
 		draw_char(str[i],color);
 	}
