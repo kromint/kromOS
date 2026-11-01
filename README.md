@@ -6,3 +6,6 @@ TODO:
     PIC and APIC support
     Keyboard Driver
     Memory Management
+
+
+PIC is added but it has very limited support also most of the exceptions are not handled
