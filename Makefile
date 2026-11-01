@@ -1,5 +1,5 @@
 
-CFILES = src/main.c src/limine.c src/interrupts/idt.c src/console/print.c src/interrupts/isr_handlersC.c src/inout.c
+CFILES = src/main.c src/limine.c src/interrupts/idt.c src/console/print.c src/interrupts/isr_handlersC.c src/inout.c src/pic.c
 SFILES = src/interrupts/isr_handlers.S
 OBJFILES = $(CFILES:.c=.o)
 OBJFILES += $(SFILES:.S=.o)

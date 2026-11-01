@@ -1,6 +1,8 @@
 #include <print.h>
 #include <interrupts.h>
 #include <limine.h>
+#include <inout.h>
+#include <pic.h>
 
 #define RED 0x00FF0000
 
@@ -21,6 +23,8 @@ void print_panic(const char* reason,struct InterruptFrame* frame) {
 	printk("\nsystem is now halted.\n",RED);
 	hcf();
 }
+
+unsigned char scancode = 0;
 
 void isr_exception_handler(struct InterruptFrame* frame) {
 	switch (frame->interrupt_vector) {
@@ -51,6 +55,16 @@ void isr_exception_handler(struct InterruptFrame* frame) {
 		case 8: 
 			print_panic("CoProcessor segment overrun",frame);
 			break;
+		case 32:
+			printk("timer interrupt",~0);
+			PIC_sendEOI(0);
+			break;
+		case 33:
+			scancode = inb(0x60);
+			draw_char(scancode,~0);
+			PIC_sendEOI(1);
+			break;
+
 		default:
 			print_panic("this interrupt shouldn't be forwarded to exceptions",frame);
 			break;

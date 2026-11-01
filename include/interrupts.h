@@ -40,6 +40,8 @@ void isr_14(void);
 void isr_15(void);
 void isr_16(void);
 void isr_17(void);
+void isr_32(void);
+void isr_33(void);
 
 struct InterruptFrame {
 	unsigned long long r15,r14,r13,r12,r11,r10,r9,r8;

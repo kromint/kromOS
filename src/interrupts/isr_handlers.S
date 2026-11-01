@@ -34,6 +34,9 @@ ER_ISR   15
 ER_ISR   16
 ER_ISR   17
 
+NOER_ISR 32
+NOER_ISR 33
+
 
 
 

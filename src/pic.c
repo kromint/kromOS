@@ -1,7 +1,7 @@
 #include <inout.h>
 
 #define PIC1 0x20 //master pic
-#define PIC_DATA  0x21
+#define PIC1_DATA  0x21
 
 #define PIC2 0xA0 //slave pic
 #define PIC2_DATA 0xA1
@@ -27,9 +27,9 @@
 //this part is taken from wiki.osdev.org
 
 void PIC_remap(void) {
-	outb(PIC1,ICW1_INIT | ICW_ICW4);
+	outb(PIC1,ICW1_INIT | ICW1_ICW4);
 	io_wait();
-	outb(PIC2, ICW1_INIT | ICW_ICW4);
+	outb(PIC2, ICW1_INIT | ICW1_ICW4);
 	io_wait();
 
 	outb(PIC1_DATA,0x20); // offset so interrupt vector 0x20-0x27 is PIC1 interrupts
@@ -54,16 +54,16 @@ void PIC_remap(void) {
 }
 
 void PIC_disable(void) {
-	outb(PIC2_DATA, 0xff);
+	outb(PIC1_DATA, 0xff);
 	outb(PIC2_DATA, 0xff);
 }
 
 void PIC_sendEOI(unsigned char irq) {
-	if (irq>7) outb(PIC2_COMMAND,PIC_EOI);
-	outb(PIC1_COMMAND,PIC_EOI);
+	if (irq>7) outb(PIC2,PIC_EOI);
+	outb(PIC1,PIC_EOI);
 }
 
-void IRQ_set_mask(unsigned char irq) {
+void irq_set_mask(unsigned char irq) {
 	unsigned short port;
 	unsigned char  value;
 
@@ -79,7 +79,7 @@ void IRQ_set_mask(unsigned char irq) {
 }
 
 
-void IRQ_clear_mask(unsigned char irq) {
+void irq_clear_mask(unsigned char irq) {
 	unsigned short port;
 	unsigned char  value;
 
@@ -90,6 +90,6 @@ void IRQ_clear_mask(unsigned char irq) {
 		irq -= 8;
 	}
 
-	value = inb(port) | ~(1<<irq);
+	value = inb(port) & ~(1<<irq);
 	outb(port,value);
 }
